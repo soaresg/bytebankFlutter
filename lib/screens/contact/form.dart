@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../../database/app_database.dart';
 import '../../database/dao/contact_dao.dart';
 import '../../models/contacts.dart';
 
