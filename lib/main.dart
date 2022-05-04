@@ -26,23 +26,3 @@ class BytebankApp extends StatelessWidget {
     );
   }
 }
-
-// class BytebankAppOld extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       theme: ThemeData(
-//         colorScheme: ColorScheme.fromSwatch().copyWith(
-//           primary: Colors.green[900],
-//           secondary: Colors.blueAccent[700],
-//         ),
-//         elevatedButtonTheme: ElevatedButtonThemeData(
-//           style: ElevatedButton.styleFrom(
-//             primary: Colors.blueAccent[700],
-//           ),
-//         ),
-//       ),
-//       home: ListaTransferencias(),
-//     );
-//   }
-// }
