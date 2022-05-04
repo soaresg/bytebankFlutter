@@ -9,4 +9,5 @@ final Uri url = Uri.http('192.168.100.32:8080', 'transactions');
 
 final Client client = InterceptedClient.build(
   interceptors: [LoggingInterceptor()],
+  requestTimeout: Duration(seconds: 5),
 );
