@@ -1,11 +1,17 @@
 class Transferencia {
-  final double valor;
-  final int numeroConta;
+  final double? valor;
+  final int? numeroConta;
 
-  Transferencia(this.valor, this.numeroConta);
+  Transferencia(
+    this.valor,
+    this.numeroConta,
+  );
 
-  @override
-  String toString() {
-    return 'Transferencia{valor: $valor, numeroConta: $numeroConta}';
+  String toStringValor() {
+    return 'R\$ $valor';
+  }
+
+  String toStringConta() {
+    return 'Conta: $numeroConta';
   }
 }

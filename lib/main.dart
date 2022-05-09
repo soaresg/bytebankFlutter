@@ -1,29 +1,23 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_constructors_in_immutables, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
+// ignore_for_file: use_key_in_widget_constructors
 
-import 'dart:async';
-
-import 'package:firebase_core/firebase_core.dart';
+import 'package:bytebank/models/transferencias.dart';
+import 'package:bytebank/screens/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
-import 'screens/dashboard.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:provider/provider.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+import 'models/saldo.dart';
 
-  if (kDebugMode) {
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-  } else {
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-    FirebaseCrashlytics.instance.setUserIdentifier('user123');
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  }
-
-  runZonedGuarded<Future<void>>(() async {
-    runApp(BytebankApp());
-  }, FirebaseCrashlytics.instance.recordError);
-}
+void main() => runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => Saldo(0),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Transferencias(),
+        ),
+      ],
+      child: BytebankApp(),
+    ));
 
 class BytebankApp extends StatelessWidget {
   @override
