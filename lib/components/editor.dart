@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors_in_immutables, use_key_in_widget_constructors, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 
@@ -8,7 +8,12 @@ class Editor extends StatelessWidget {
   final String? dica;
   final IconData? icone;
 
-  Editor({this.controlador, this.rotulo, this.dica, this.icone});
+  Editor({
+    this.controlador,
+    this.rotulo,
+    this.dica,
+    this.icone,
+  });
 
   @override
   Widget build(BuildContext context) {
