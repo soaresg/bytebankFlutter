@@ -14,7 +14,3 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
-
-## Note
-
-A partir da branch Provider a estrutura e código do projeto sofreu grande mudanças, sendo assim a branch "Firebase" será considerado o sistema LEGADO.
