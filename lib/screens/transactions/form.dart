@@ -1,10 +1,8 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, use_key_in_widget_constructors, prefer_const_constructors, unnecessary_null_comparison, prefer_final_fields, non_constant_identifier_names, import_of_legacy_library_into_null_safe
+// ignore_for_file: prefer_const_constructors_in_immutables, use_key_in_widget_constructors, prefer_const_constructors, unnecessary_null_comparison, prefer_final_fields
 
 import 'dart:async';
 
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../components/progress.dart';
@@ -28,12 +26,10 @@ class _TransactionFormState extends State<TransactionForm> {
   final TransactionWebClient _webClient = TransactionWebClient();
   final String transactionId = Uuid().v4();
   bool _sending = false;
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('New transaction'),
       ),
@@ -128,25 +124,25 @@ class _TransactionFormState extends State<TransactionForm> {
       _sending = true;
     });
 
-    final Transaction? transaction =
-        await _webClient.save(transactionCreated, password).catchError((e) {
-      if (FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled) {
-        _FirebaseRecordError(e, transactionCreated);
-      }
-
-      _showFailureDialog(context, message: e.message);
+    final Transaction? transaction = await _webClient
+        .save(
+      transactionCreated,
+      password,
+    )
+        .catchError((e) {
+      _showFailureDialog(
+        context,
+        message: e.message,
+      );
     }, test: (e) => e is HttpException).catchError((e) {
-      if (FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled) {
-        _FirebaseRecordError(e, transactionCreated);
-      }
-
-      _showFailureDialog(context, message: 'Connection Timeout');
+      _showFailureDialog(
+        context,
+        message: 'Connection Timeout',
+      );
     }, test: (e) => e is TimeoutException).catchError((e) {
-      if (FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled) {
-        _FirebaseRecordError(e, transactionCreated);
-      }
-
-      _showFailureDialog(context);
+      _showFailureDialog(
+        context,
+      );
     }).whenComplete(() {
       setState(() {
         _sending = false;
@@ -156,48 +152,16 @@ class _TransactionFormState extends State<TransactionForm> {
     return transaction;
   }
 
-  void _FirebaseRecordError(e, Transaction transactionCreated) {
-    FirebaseCrashlytics.instance.setCustomKey('exception', e.toString());
-    FirebaseCrashlytics.instance.setCustomKey('http_code', e.statusCode);
-    FirebaseCrashlytics.instance
-        .setCustomKey('http_body', transactionCreated.toString());
-    FirebaseCrashlytics.instance.recordError(e, null);
-  }
-
   void _showFailureDialog(BuildContext context,
       {String message = 'Unknown error'}) {
-    // final snackBar = SnackBar(content: Text(message));
-    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-    _showGifError(context, message);
-
-    // showDialog(
-    //   context: context,
-    //   builder: (contextDialog) {
-    //     return FailureDialog(
-    //       message,
-    //     );
-    //   },
-    // );
-  }
-
-  void _showGifError(BuildContext context, String message) {
     showDialog(
-        context: context,
-        builder: (_) => NetworkGiffyDialog(
-              image: Image.asset('images/error.gif'),
-              title: Text(
-                'Ops!!!',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600),
-              ),
-              description: Text(
-                message,
-                textAlign: TextAlign.center,
-              ),
-              entryAnimation: EntryAnimation.TOP,
-              onOkButtonPressed: () {},
-            ));
+      context: context,
+      builder: (contextDialog) {
+        return FailureDialog(
+          message,
+        );
+      },
+    );
   }
 
   Future<void> _showSuccessfulDialog(
