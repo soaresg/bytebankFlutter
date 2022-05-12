@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../../components/centered_message.dart';
-import '../../components/progress/progress.dart';
+import '../../components/progress.dart';
 import '../../http/webclients/transactions/webclient.dart';
 import '../../models/transaction.dart';
 

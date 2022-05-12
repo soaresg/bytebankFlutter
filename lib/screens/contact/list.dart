@@ -3,7 +3,7 @@
 import 'package:bytebank/components/container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../components/progress/progress.dart';
+import '../../components/progress.dart';
 import '../../database/dao/contact_dao.dart';
 import '../../models/contacts.dart';
 import '../transactions/form.dart';
