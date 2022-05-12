@@ -4,11 +4,11 @@ import 'dart:async';
 
 import 'package:bytebank/components/container.dart';
 import 'package:bytebank/components/error.dart';
+import 'package:bytebank/components/progress/progress_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../components/progress.dart';
 import '../../http/webclients/transactions/webclient.dart';
 import '../../models/contacts.dart';
 import '../../models/transaction.dart';
