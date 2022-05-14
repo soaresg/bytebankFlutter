@@ -1,23 +1,26 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables, no_logic_in_create_state
 
+import 'package:bytebank/widgets/app_dependences.dart';
 import 'package:flutter/material.dart';
 
 import '../../database/dao/contact_dao.dart';
 import '../../models/contacts.dart';
 
 class ContactForm extends StatefulWidget {
+
   @override
   State<ContactForm> createState() => _ContactFormState();
 }
 
 class _ContactFormState extends State<ContactForm> {
   final TextEditingController _nameController = TextEditingController();
-
   final TextEditingController _accountNumberController =
       TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final dependencies = AppDependencies.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('New Contact'),
@@ -54,11 +57,10 @@ class _ContactFormState extends State<ContactForm> {
                     final String name = _nameController.text;
                     final int? accountNumber =
                         int.tryParse(_accountNumberController.text);
-                    final ContactDao _dao = ContactDao();
 
                     final Contact newContact = Contact(0, name, accountNumber!);
 
-                    _dao.save(newContact).then((id) => Navigator.pop(context));
+                    _save(dependencies!.contactDao, newContact, context);
                   },
                 ),
               ),
@@ -67,5 +69,10 @@ class _ContactFormState extends State<ContactForm> {
         ),
       ),
     );
+  }
+
+  void _save(ContactDao contactDao, Contact newContact, BuildContext context) async {
+    await contactDao.save(newContact);
+    Navigator.pop(context);
   }
 }

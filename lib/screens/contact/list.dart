@@ -1,30 +1,32 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables, no_logic_in_create_state
 
+import 'package:bytebank/widgets/app_dependences.dart';
 import 'package:flutter/material.dart';
 import '../../components/progress.dart';
-import '../../database/dao/contact_dao.dart';
 import '../../models/contacts.dart';
 import '../transactions/form.dart';
 import 'form.dart';
 
 class ContactsList extends StatefulWidget {
-  @override
-  State<ContactsList> createState() => _ContactsListState();
+    @override
+  State<ContactsList> createState() =>
+      _ContactsListState();
 }
 
 class _ContactsListState extends State<ContactsList> {
   final List<Contact> contacts = [];
-  final ContactDao _dao = ContactDao();
 
   @override
   Widget build(BuildContext context) {
+    final dependencies = AppDependencies.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Transfer'),
       ),
       body: FutureBuilder<List<Contact>>(
         initialData: [],
-        future: _dao.findAll(),
+        future: dependencies!.contactDao.findAll(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -38,7 +40,7 @@ class _ContactsListState extends State<ContactsList> {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final Contact contact = contacts[index];
-                  return _ContactItem(
+                  return ContactItem(
                     contact,
                     onClick: () {
                       Navigator.of(context).push(
@@ -72,11 +74,11 @@ class _ContactsListState extends State<ContactsList> {
   }
 }
 
-class _ContactItem extends StatelessWidget {
+class ContactItem extends StatelessWidget {
   final Contact contact;
   final Function onClick;
 
-  _ContactItem(this.contact, {required this.onClick});
+  ContactItem(this.contact, {required this.onClick});
 
   @override
   Widget build(BuildContext context) {

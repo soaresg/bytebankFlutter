@@ -11,14 +11,14 @@ class ContactDao {
   static const String _name = 'name';
   static const String _accountNumber = 'account_number';
 
-  Future<int> save(Contact contact) async {
+  Future<int>? save(Contact contact) async {
     final Database db = await getDatabase();
     Map<String, dynamic> contactMap = _toMap(contact);
 
     return db.insert(_tableName, contactMap);
   }
 
-  Future<List<Contact>> findAll() async {
+  Future<List<Contact>>? findAll() async {
     final Database db = await getDatabase();
     final List<Map<String, dynamic>> result = await db.query(_tableName);
     List<Contact> contacts = _toList(result);
